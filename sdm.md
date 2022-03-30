@@ -19,6 +19,7 @@ sdm /home/pi/quadratura/2022-01-28-raspios-bullseye-arm64.img \
 --customize \
 --loadlocal wifi \
 --apssid zero.local \
+--nowpa \
 --restart
 ```
 
