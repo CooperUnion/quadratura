@@ -20,9 +20,10 @@ sdm /home/pi/quadratura/2022-01-28-raspios-bullseye-arm64-lite.img \
 --loadlocal wifi \
 --apssid zero.local \
 --nowpa \
+--cscript custom-phase-script
 --restart
 ```
 
 ## Sample Burn Command
-`sdm --burn /dev/sdc --host zero.local --expand-root 2022-01-28-raspios-bullseye-arm64.img `
+`sdm --burn /dev/sdc --host zero.local --expand-root 2022-01-28-raspios-bullseye-arm64-lite.img `
 
