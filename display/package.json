@@ -1,0 +1,34 @@
+{
+  "name": "quadratura",
+  "version": "0.1.0",
+  "description": "A sample app for the Quadratura project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "one": "node index.js | python output.py",
+    "many": "node many.js | python output.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CooperUnion/quadratura.git"
+  },
+  "keywords": [
+    "node",
+    "python",
+    "raspberry",
+    "pi"
+  ],
+  "author": "Erin Sparling",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CooperUnion/quadratura/issues"
+  },
+  "homepage": "https://github.com/CooperUnion/quadratura#readme",
+  "dependencies": {
+    "buffer-to-data-url": "^1.0.0",
+    "canvas": "^2.9.1",
+    "canvas-to-buffer": "^2.0.0",
+    "image-data-uri": "^2.0.1",
+    "node-p5": "^1.0.4"
+  }
+}
