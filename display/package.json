@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "one": "node index.js | python output.py",
-    "many": "node many.js | python output.py"
+    "many": "node many.js | python output.py",
+    "ricky": "node ricky.js | output.py"
   },
   "repository": {
     "type": "git",
