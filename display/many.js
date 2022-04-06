@@ -3,13 +3,10 @@ const {Buffer} = require('buffer');
 
 function sketch(p) {
 
-    function streamBase64(canvas) {
+    function outputBase64(canvas) {
       try {
-        // buffer
-        // return console.log(Buffer.from(canvas.canvas.toDataURL()))
-        // base64
+        // return process.stdout.write(canvas.canvas.toDataURL())
         return console.log(canvas.canvas.toDataURL())
-        // return console.log("test")
       } catch (e) {
         console.log(e)
       }
@@ -18,13 +15,8 @@ function sketch(p) {
     p.setup = () => {
         let canvas = p.createCanvas(320, 240);
         setInterval(() => {
-
-            // p.loadPixels()
-            // console.log(p.pixels)
-
-            // console.log(canvas.canvas.toDataURL())
-            streamBase64(canvas)
-        }, 000);
+            outputBase64(canvas)
+        }, 33.3);
     }
     p.draw = () => {
         p.background(200);
