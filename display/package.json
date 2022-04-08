@@ -7,7 +7,8 @@
     "start": "node index.js",
     "one": "node index.js | python output.py",
     "many": "node many.js | python output.py",
-    "ricky": "node ricky.js | output.py"
+    "ricky": "node ricky.js | output.py",
+    "display": "node ricky.js | python display.py"
   },
   "repository": {
     "type": "git",
