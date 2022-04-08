@@ -42,3 +42,4 @@ sdm /home/pi/quadratura/2022-01-28-raspios-bullseye-arm64-lite.img \
     codercom/code-server:latest
   ```
 1. Install git `sudo apt-get install git`
+1. Dependencies for node-canvas: `sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev` [via](https://github.com/Automattic/node-canvas#compiling)
