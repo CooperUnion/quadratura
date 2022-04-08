@@ -41,3 +41,4 @@ sdm /home/pi/quadratura/2022-01-28-raspios-bullseye-arm64-lite.img \
     -e "DOCKER_USER=$USER" \
     codercom/code-server:latest
   ```
+1. Install git `sudo apt-get install git`
