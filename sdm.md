@@ -29,6 +29,15 @@ sdm /home/pi/quadratura/2022-01-28-raspios-bullseye-arm64-lite.img \
 
 ## Things to setup for Docker
 1. docker `curl https://get.docker.com | sh` 
-1. docker non-sudo user `sudo usermod -aG docker ${USER}` [via](https://dev.to/elalemanyo/how-to-install-docker-and-docker-compose-on-raspberry-pi-
+1. docker non-sudo user `sudo usermod -aG docker ${USER}` [via](https://dev.to/elalemanyo/how-to-install-docker-and-docker-compose-on-raspberry-pi-)
 1. node 16 `docker pull arm64v8/node` [via](https://hub.docker.com/r/arm64v8/node/)
 1. code-server `docker pull codercom/code-server:latest` [via](https://hub.docker.com/r/codercom/code-server)
+  - ```
+    mkdir -p ~/.config
+    docker run -it --name code-server -p 127.0.0.1:8080:8080 \
+    -v "$HOME/.config:/home/coder/.config" \
+    -v "$PWD:/home/coder/project" \
+    -u "$(id -u):$(id -g)" \
+    -e "DOCKER_USER=$USER" \
+    codercom/code-server:latest
+  ```
