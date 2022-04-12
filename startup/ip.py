@@ -17,13 +17,6 @@ try:
 except IndexError:
     delay = 60
 
-time.sleep(delay)
-
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
-MESSAGE = s.getsockname()[0]
-s.close()
-
 print("""
 ip.py - Display connectivity information at boot.
 
@@ -32,7 +25,16 @@ Usage: ./ip.py <delay>
 * <delay> specified in seconds. 
 * If no delay is specified, the default is 60 seconds.
 
-""".format(sys.argv[0]))
+Currently sleeping for {delay} seconds.
+""".format(delay=delay))
+
+
+time.sleep(delay)
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+MESSAGE = s.getsockname()[0]
+s.close()
 
 # Create ST7789 LCD display class.
 disp = ST7789.ST7789(
@@ -54,7 +56,6 @@ disp.begin()
 WIDTH = disp.width
 HEIGHT = disp.height
 
-
 img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 
 draw = ImageDraw.Draw(img)
@@ -70,9 +71,9 @@ t_start = time.time()
 
 displayhatmini = DisplayHATMini(img, backlight_pwm=True)
 
-BUTTON_MESSAGE=""
 
 def button_callback(pin):
+    global MESSAGE
 
     # Only handle presses
     if not displayhatmini.read_button(pin):
@@ -80,21 +81,27 @@ def button_callback(pin):
 
     if pin == displayhatmini.BUTTON_A:
         print("a pressed")
-        BUTTON_MESSAGE="A button pressed"
+        MESSAGE="A button pressed"
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
-        BUTTON_MESSAGE="B button pressed"
+        MESSAGE="B button pressed"
 
 displayhatmini.on_button_pressed(button_callback)
 
 while True:
     x = (time.time() - t_start) * 100
     x %= (size_x + disp.width)
+    x = WIDTH
     draw.rectangle((0, 0, disp.width, disp.height), (0, 0, 0))
     draw.text((int(text_x - x), text_y), MESSAGE, font=font, fill=(255, 255, 255))
     disp.display(img)
+
+    """
     try:
-        if sys.argv[2] == "debug":
-            print(MESSAGE)
+        if len(BUTTON_MESSAGE)>0:
+            draw.text((int(text_x - x), text_y), BUTTON_MESSAGE, font=font, fill=(255, 255, 255))
+            disp.display(img)
     except:
-        pass
+        draw.text((int(text_x - x), text_y), MESSAGE, font=font, fill=(255, 255, 255))
+        disp.display(img)
+    """
