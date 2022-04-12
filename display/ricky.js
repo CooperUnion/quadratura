@@ -12,23 +12,22 @@ let width = 320
 let height = 240
 let offsetx = width/25
 let offsety = height/25
+let canvas
+let fps = 60
 
 function sketch(p) {
     p.setup = () => {
-        let canvas = p.createCanvas(320, 240);
+        canvas = p.createCanvas(320, 240);
 
         p.colorMode('HSB')
         p.rectMode('CENTER')
-        p.frameRate(30)
+        p.frameRate(fps)
         p.stroke(0)
         p.noFill()
-  
-        setInterval(() => {
-            console.log(canvas.canvas.toDataURL())            
-        }, 33.3);
+
     }
     p.draw = () => {
-        p.background(0, 0, 100);
+        p.background("white");
         for (let i=0; i<height/2.7;i=i+10) {
             for (let j=0; j<width/2.7;j=j+10) {
                 let ellipseScale = Math.cos(i*j)*(p.sin(it)*p.cos(it)*10)+p.sin(it)*zoom
@@ -51,6 +50,7 @@ function sketch(p) {
         it = (it+p.PI/280)
         it2 = p.sin(it)
         anything = anything+0.0002
+	console.log(canvas.canvas.toDataURL())
     }
 }
 let p5Instance = p5.createSketch(sketch);

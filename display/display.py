@@ -47,4 +47,4 @@ while True:
             filename = "output/test-{counter}.png".format(counter=counter)
             image = Image.open(io.BytesIO(currentURI.data))
             disp.display(image)
-        sleep(1/30)
+        # sleep(1/30)
