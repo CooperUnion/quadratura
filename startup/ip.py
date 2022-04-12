@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import time
+import os
 
 from PIL import Image
 from PIL import ImageDraw
@@ -72,6 +73,9 @@ t_start = time.time()
 displayhatmini = DisplayHATMini(img, backlight_pwm=True)
 
 
+def _exit():
+    return 
+
 def button_callback(pin):
     global MESSAGE
 
@@ -85,13 +89,24 @@ def button_callback(pin):
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
         MESSAGE="B button pressed"
+    if pin == displayhatmini.BUTTON_X:
+        print("x pressed")
+        MESSAGE="X button pressed"
+        displayhatmini.set_backlight(0.1)
+    if pin == displayhatmini.BUTTON_Y:
+        print("y pressed. quitting...")
+        MESSAGE="Y button pressed. Exiting"
+        draw.rectangle((0, 0, WIDTH, HEIGHT), (0,0,0))
+        displayhatmini.set_backlight(0)
+        disp.display(img)
+        os._exit(1)
 
 displayhatmini.on_button_pressed(button_callback)
 
 while True:
     x = (time.time() - t_start) * 100
     x %= (size_x + disp.width)
-    x = WIDTH
+    # x = WIDTH
     draw.rectangle((0, 0, disp.width, disp.height), (0, 0, 0))
     draw.text((int(text_x - x), text_y), MESSAGE, font=font, fill=(255, 255, 255))
     disp.display(img)
