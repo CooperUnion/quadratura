@@ -1,27 +1,14 @@
 #!/usr/bin/env python3
 import sys
-import qrcode
+from qrLibrary import generateQrImage
 
-from PIL import Image, ImageDraw
 import ST7789 as ST7789
 
 print("""
 image.py - Display an image on the LCD.
 """)
 
-# Link for website
-input_data = "http://erinsparling.com"
-#Creating an instance of qrcode
-qr = qrcode.QRCode(
-        version=1,
-        box_size=10,
-        border=5)
-qr.add_data(input_data)
-qr.make(fit=True)
-img = qr.make_image(fill='black', back_color='white')
-# img.save('qr.png')
-
-image_file = img
+image = generateQrImage("http://erinsparling.com")
 
 disp = ST7789.ST7789(
     height=240,
@@ -43,9 +30,7 @@ HEIGHT = disp.height
 disp.begin()
 
 # Load an image.
-print('Loading image: {}...'.format(image_file))
-# image = Image.open(image_file)
-image = image_file
+print('Loading image: {}...'.format(image))
 
 # Resize the image
 image = image.resize((WIDTH, HEIGHT))
