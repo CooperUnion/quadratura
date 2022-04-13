@@ -10,7 +10,7 @@ image.py - Display an image on the LCD.
 """)
 
 # Link for website
-input_data = "https://bengersch.com/home.html"
+input_data = "http://erinsparling.com"
 #Creating an instance of qrcode
 qr = qrcode.QRCode(
         version=1,
@@ -19,9 +19,9 @@ qr = qrcode.QRCode(
 qr.add_data(input_data)
 qr.make(fit=True)
 img = qr.make_image(fill='black', back_color='white')
-img.save('qr.png')
+# img.save('qr.png')
 
-image_file = "qr.png"
+image_file = img
 
 disp = ST7789.ST7789(
     height=240,
@@ -44,7 +44,8 @@ disp.begin()
 
 # Load an image.
 print('Loading image: {}...'.format(image_file))
-image = Image.open(image_file)
+# image = Image.open(image_file)
+image = image_file
 
 # Resize the image
 image = image.resize((WIDTH, HEIGHT))
