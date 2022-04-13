@@ -1,4 +1,8 @@
 # Startup Script
+Install python dependencies
+```
+pip install -r requirements.txt
+```
 
 Install as a user crontab to show ip information at boot on an attached ST7789 device.
 

@@ -2,6 +2,7 @@
 import sys
 import time
 import os
+import qrcode
 
 from PIL import Image
 from PIL import ImageDraw
@@ -58,7 +59,6 @@ WIDTH = disp.width
 HEIGHT = disp.height
 
 img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
-
 draw = ImageDraw.Draw(img)
 
 font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 30)
@@ -72,12 +72,11 @@ t_start = time.time()
 
 displayhatmini = DisplayHATMini(img, backlight_pwm=True)
 
-
-def _exit():
-    return 
+BRIGHTNESS=1
 
 def button_callback(pin):
     global MESSAGE
+    global BRIGHTNESS
 
     # Only handle presses
     if not displayhatmini.read_button(pin):
@@ -91,8 +90,9 @@ def button_callback(pin):
         MESSAGE="B button pressed"
     if pin == displayhatmini.BUTTON_X:
         print("x pressed")
-        MESSAGE="X button pressed"
-        displayhatmini.set_backlight(0.1)
+        MESSAGE="X button pressed, toggling"
+        BRIGHTNESS = 1 if BRIGHTNESS == 0 else 0
+        displayhatmini.set_backlight(BRIGHTNESS)
     if pin == displayhatmini.BUTTON_Y:
         print("y pressed. quitting...")
         MESSAGE="Y button pressed. Exiting"

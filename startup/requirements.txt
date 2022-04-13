@@ -1,0 +1,5 @@
+# Main requirements
+qrcode
+pillow
+displayhatmini
+ST7789
