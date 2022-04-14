@@ -2,7 +2,7 @@
 import sys
 import time
 import os
-import qrcode
+from qrLibrary import generateQrImage
 
 from PIL import Image
 from PIL import ImageDraw
@@ -35,6 +35,7 @@ time.sleep(delay)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
+IP = s.getsockname()[0]
 MESSAGE = s.getsockname()[0]
 s.close()
 
@@ -77,6 +78,8 @@ BRIGHTNESS=1
 def button_callback(pin):
     global MESSAGE
     global BRIGHTNESS
+    global img
+    global IP
 
     # Only handle presses
     if not displayhatmini.read_button(pin):
@@ -88,6 +91,9 @@ def button_callback(pin):
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
         MESSAGE="B button pressed"
+        img = generateQrImage("http://{IP}:8000/admin.html".format(IP=IP))
+        img = img.resize((WIDTH, HEIGHT))
+        disp.display(img)
     if pin == displayhatmini.BUTTON_X:
         print("x pressed")
         MESSAGE="X button pressed, toggling"
