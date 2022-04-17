@@ -1,4 +1,7 @@
-const p5 = require('node-p5');
+import p5 from  'node-p5'
+import { PythonShell } from 'python-shell';
+
+let display = new PythonShell('output.py');
 
 //Artwork by Ricky Yurewitch
 //https://editor.p5js.org/Ricky1280/sketches/sfAlfsPlF
@@ -50,8 +53,8 @@ function sketch(p) {
         it = (it+p.PI/280)
         it2 = p.sin(it)
         anything = anything+0.0002
-        console.log(canvas.canvas.toDataURL())
-        
+//        console.log(canvas.canvas.toDataURL())
+        display.send(canvas.canvas.toDataURL())      
         if(process.env.ITERATIONS && process.env.ITERATIONS==1) {
             process.exit(0)
         }

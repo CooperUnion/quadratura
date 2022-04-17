@@ -11,6 +11,7 @@
     "display": "node ricky.js | python display.py",
     "test": "ITERATIONS=1 node test.js"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CooperUnion/quadratura.git"
@@ -33,6 +34,7 @@
     "canvas-to-buffer": "^2.0.0",
     "image-data-uri": "^2.0.1",
     "node-canvas": "^2.9.0",
-    "node-p5": "^1.0.4"
+    "node-p5": "^1.0.4",
+    "python-shell": "^3.0.1"
   }
 }
