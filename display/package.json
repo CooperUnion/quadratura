@@ -8,7 +8,8 @@
     "one": "node index.js | python output.py",
     "many": "node many.js | python output.py",
     "ricky": "node ricky.js | output.py",
-    "display": "node ricky.js | python display.py"
+    "display": "node ricky.js | python display.py",
+    "test": "ITERATIONS=1 node ricky.js"
   },
   "repository": {
     "type": "git",
