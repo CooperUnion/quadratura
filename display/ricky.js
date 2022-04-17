@@ -1,4 +1,5 @@
-const p5 = require('node-p5');
+import p5 from 'node-p5'
+
 
 //Artwork by Ricky Yurewitch
 //https://editor.p5js.org/Ricky1280/sketches/sfAlfsPlF
