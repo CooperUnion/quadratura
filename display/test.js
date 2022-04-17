@@ -51,6 +51,10 @@ function sketch(p) {
         it2 = p.sin(it)
         anything = anything+0.0002
         console.log(canvas.canvas.toDataURL())
+        
+        if(process.env.ITERATIONS && process.env.ITERATIONS==1) {
+            process.exit(0)
+        }
     }
 }
 let p5Instance = p5.createSketch(sketch);
