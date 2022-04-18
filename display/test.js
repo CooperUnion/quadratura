@@ -1,7 +1,17 @@
 import p5 from  'node-p5'
 import { PythonShell } from 'python-shell';
 
-let display = new PythonShell('output.py');
+let display = new PythonShell('output-test.py', {})
+display.on('message', function (message) {
+    // received a message sent from the Python script (a simple "print" statement)
+    console.log("message received", message);
+    process.exit(0)
+})
+display.on('stderr', function (stderr) {
+    console.log('stderr...', stderr)
+    // handle stderr (a line of text from stderr)
+});
+
 
 //Artwork by Ricky Yurewitch
 //https://editor.p5js.org/Ricky1280/sketches/sfAlfsPlF
@@ -54,10 +64,8 @@ function sketch(p) {
         it2 = p.sin(it)
         anything = anything+0.0002
 //        console.log(canvas.canvas.toDataURL())
-        display.send(canvas.canvas.toDataURL())      
-        if(process.env.ITERATIONS && process.env.ITERATIONS==1) {
-            process.exit(0)
-        }
+        display.send(canvas.canvas.toDataURL())
+
     }
 }
 let p5Instance = p5.createSketch(sketch);

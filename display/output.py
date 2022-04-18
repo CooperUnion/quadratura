@@ -18,4 +18,5 @@ while True:
             filename = "output/test-{counter}.png".format(counter=counter)
             image = Image.open(io.BytesIO(currentURI.data))
             image.save(filename)
+            print("saved")
         sleep(1/30)
