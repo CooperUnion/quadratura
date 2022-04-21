@@ -9,7 +9,9 @@
     "many": "node many.js | python output.py",
     "ricky": "node ricky.js | output.py",
     "display": "node ricky.js | python display.py",
-    "test": "ITERATIONS=1 node test.js"
+    "test": "node test.js",
+    "clean": "rm -rf ./output/*",
+    "buttons": "node test-buttons.js"
   },
   "type": "module",
   "repository": {

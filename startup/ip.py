@@ -105,6 +105,7 @@ def button_callback(pin):
         draw.rectangle((0, 0, WIDTH, HEIGHT), (0,0,0))
         displayhatmini.set_backlight(0)
         disp.display(img)
+        # os.system('sudo shutdown now')
         os._exit(1)
 
 displayhatmini.on_button_pressed(button_callback)

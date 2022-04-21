@@ -1,11 +1,12 @@
 import p5 from  'node-p5'
 import { PythonShell } from 'python-shell';
 
-let display = new PythonShell('output-test.py', {})
+let display = new PythonShell('output-test.py', {pythonOptions: ['-u']})
+
 display.on('message', function (message) {
     // received a message sent from the Python script (a simple "print" statement)
     console.log("message received", message);
-    process.exit(0)
+    // process.exit(0)
 })
 display.on('stderr', function (stderr) {
     console.log('stderr...', stderr)
@@ -28,6 +29,8 @@ let offsety = height/25
 let canvas
 let fps = 60
 
+console.log("starting")
+
 function sketch(p) {
     p.setup = () => {
         canvas = p.createCanvas(320, 240);
@@ -38,6 +41,7 @@ function sketch(p) {
         p.stroke(0)
         p.noFill()
 
+        console.log("setup")
     }
     p.draw = () => {
         p.background("white");
