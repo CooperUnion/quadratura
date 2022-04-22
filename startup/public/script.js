@@ -3,16 +3,39 @@ window.onload = async ()=>{
 
   const services = await fetch('/services').then(r=>r.json())
   const list = document.createElement('ul')
+  list.classList.add('demo-list-control','mdl-list')
+
+  const materialCard = document.createElement('div')
+  materialCard.classList.add('demo-card-wide','mdl-card','mdl-shadow--2dp')
+
+  const title = document.createElement('h2')
+  title.classList.add('mdl-card__title-text')
+  title.innerText = 'Quadratura Control Panel'
+
+  const materialTitle = document.createElement('div')
+  materialTitle.classList.add('mdl-card__title')
+  materialTitle.appendChild(title)
 
   for(let serviceData of services) {
 
     const { service, url } = serviceData
+    const index = services.indexOf(serviceData)
+
     const status = await fetch(`/status/${service}`).then(r=>parseInt(r.status)) === 200
+
+    const materialItemContainer = document.createElement('span')
+    materialItemContainer.classList.add('mdl-list__item-secondary-action')
+
+    const materialItemLabel = document.createElement('label')
+    materialItemLabel.classList.add('mdl-switch','mdl-js-switch','mdl-js-ripple-effect')
+    materialItemLabel.setAttribute('for', `${service}-${index}`)
 
     const statusItem = document.createElement('input')
     statusItem.setAttribute('type', 'checkbox')
     statusItem.setAttribute('name', service)
+    statusItem.setAttribute('id',`${service}-${index}`)
     statusItem.checked = status
+    statusItem.classList.add('mdl-switch__input')
 
     statusItem.addEventListener('change', async (e)=>{
       await fetch(`/${e.target.checked ? 'start' : 'stop'}/${e.target.name}`)
@@ -25,13 +48,25 @@ window.onload = async ()=>{
       : `${service} is ${ status ? 'running' : 'not running'}`
     statusLabel.classList.add(status ? 'online' : 'offline')
 
+    const materialStatusContainer = document.createElement('span')
+    materialStatusContainer.classList.add('mdl-list__item-primary-content') 
+    materialStatusContainer.appendChild(statusLabel)
+
     const item = document.createElement('li')
-    item.appendChild(statusLabel)
-    item.appendChild(statusItem)
+    item.classList.add('mdl-list__item')
+
+    materialItemLabel.appendChild(statusItem)
+    materialItemContainer.appendChild(materialItemLabel)
+
+    item.appendChild(materialStatusContainer)
+    item.appendChild(materialItemContainer)
     list.appendChild(item)
   }
 
-  document.querySelector("body").appendChild(list)
+  materialCard.appendChild(materialTitle)
+  materialCard.appendChild(list)
 
+  document.querySelector("body").appendChild(materialCard)
+  componentHandler.upgradeDom()
 }
 
