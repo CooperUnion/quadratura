@@ -33,11 +33,17 @@ Currently sleeping for {delay} seconds.
 
 time.sleep(delay)
 
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
-IP = s.getsockname()[0]
-MESSAGE = s.getsockname()[0]
-s.close()
+try:
+  s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  s.connect(("8.8.8.8", 80))
+  IP = s.getsockname()[0]
+  MESSAGE = s.getsockname()[0]
+  s.close()
+except:
+  hostname = socket.gethostname()
+  IP = hostname
+  MESSAGE = hostname
+  WIFI = "WIFI:S:{hostname};T:WPA/WPA2;P:cooperunion;;".format(hostname=hostname)
 
 # Create ST7789 LCD display class.
 disp = ST7789.ST7789(
@@ -91,7 +97,10 @@ def button_callback(pin):
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
         MESSAGE="B button pressed"
-        img = generateQrImage("http://{IP}:8888/".format(IP=IP))
+        if WIFI:
+          img = generateQrImage(WIFI)
+        else:
+          img = generateQrImage("http://{IP}:8888/".format(IP=IP))
         img = img.resize((WIDTH, HEIGHT))
         disp.display(img)
     if pin == displayhatmini.BUTTON_X:
