@@ -91,7 +91,7 @@ def button_callback(pin):
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
         MESSAGE="B button pressed"
-        img = generateQrImage("http://{IP}:8000/admin.html".format(IP=IP))
+        img = generateQrImage("http://{IP}:8888/index.html".format(IP=IP))
         img = img.resize((WIDTH, HEIGHT))
         disp.display(img)
     if pin == displayhatmini.BUTTON_X:
