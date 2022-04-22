@@ -5,6 +5,11 @@ import express from 'express'
 import exphbs from 'express-handlebars'
 import { networkInterfaces} from 'os'
 import { execSync } from 'child_process'
+import path from 'path'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express()
 
 
@@ -15,7 +20,8 @@ const address = nets.wlan0[0].address || 'localhost'
 app.engine('html', exphbs({extname: '.html'}));
 app.set('view engine', 'html');
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 class Services {
 
@@ -55,8 +61,9 @@ const services = new Services()
 
 const index = express.Router()
 // index.use(indexRouter)
+
 index.get('/', (req, res)=>{
-  return res.end("ok")
+  return res.redirect("/index.html")
 })
 
 index.get('/services', (req, res)=>{
