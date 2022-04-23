@@ -29,21 +29,25 @@ class AccessPoints {
   }
 
   list() {
-    const wpa = execSync('cat /etc/wpa_supplicant/wpa_supplicant.conf | grep "ssid"')    
-    const accessPoints = wpa
-      .toString()
-      .split('\n')
-      .map((row)=>{
-        return row
-          .trim()
-          .substring(6, row.length-2)
-      })
-      .filter((row)=>{
-        if(row.length===0) return false
-        if(row.substr(0,4)==='sid=') return false
-        return true
-      })
-    return accessPoints
+    try {
+      const wpa = execSync('cat /etc/wpa_supplicant/wpa_supplicant.conf | grep "ssid"')
+      const accessPoints = wpa
+        .toString()
+        .split('\n')
+        .map((row)=>{
+          return row
+            .trim()
+            .substring(6, row.length-2)
+        })
+        .filter((row)=>{
+          if(row.length===0) return false
+          if(row.substr(0,4)==='sid=') return false
+          return true
+        })
+      return accessPoints
+    } catch (e) {
+      return []
+    }
   }
 
   add(ssid, passphrase) {
@@ -60,6 +64,7 @@ class AccessPoints {
       execSync(`sudo echo '${line}' >> /etc/wpa_supplicant/wpa_supplicant.conf`)
     })
     exec(`sudo reboot`)
+
     return network
   }
 }
