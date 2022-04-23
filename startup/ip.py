@@ -92,11 +92,10 @@ def menuA():
     if len(WIFI) > 0:
         img = generateQrImage(WIFI)
         draw = ImageDraw.Draw(img)
-        draw.text((0, 0), "Wifi", font=font_ui, fill=(255, 0, 0))
+        draw.text((0, 0), "Wifi", font=font_ui, fill=(255, 0, 0, 50))
     else:
         draw = ImageDraw.Draw(img)
-        draw.text((0, 0), "Wifi - Disabled", font=font_ui, fill=(255, 0, 0, .5))
-
+        draw.text((0, 0), "Wifi - Disabled", font=font_ui, fill=(255, 0, 0, 50))
 
 def menuB():
     global img
@@ -129,7 +128,6 @@ def button_callback(pin):
         menuB()
     if pin == displayhatmini.BUTTON_X:
         print("x pressed")
-
     if pin == displayhatmini.BUTTON_Y:
         print("y pressed")
 
