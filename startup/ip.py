@@ -85,9 +85,8 @@ BRIGHTNESS=1
 def button_callback(pin):
     global MESSAGE
     global BRIGHTNESS
-    global img
-    global draw
     global IP
+    global img
 
     draw = ImageDraw.Draw(img)
 
@@ -101,7 +100,7 @@ def button_callback(pin):
         if len(WIFI)>0:
           img = generateQrImage(WIFI)
         # draw.rectangle((0, 0, disp.width, disp.height), (0, 0, 0))
-        draw.text((0,0), "TEST", font=font, fill=(255, 0, 0))
+        draw.text((0,0), "TEST", font=font, fill=(255,0,0))
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
         MESSAGE="B button pressed"
