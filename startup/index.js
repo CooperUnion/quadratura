@@ -4,7 +4,7 @@
 import express from 'express'
 import exphbs from 'express-handlebars'
 import { networkInterfaces} from 'os'
-import { execSync } from 'child_process'
+import { exec, execSync } from 'child_process'
 import path from 'path'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -52,12 +52,14 @@ class AccessPoints {
 	ssid="${ssid}"
 	psk="${passphrase}"
 	key_mgmt=WPA-PSK
+        scan_ssid=1
     }`
 
     console.log(network.split('\n'))
     network.split('\n').forEach((line)=>{
       execSync(`sudo echo '${line}' >> /etc/wpa_supplicant/wpa_supplicant.conf`)
     })
+    exec(`sudo reboot`)
     return network
   }
 }
