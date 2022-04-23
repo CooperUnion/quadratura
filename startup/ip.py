@@ -129,6 +129,7 @@ def button_callback(pin):
         print("x pressed")
     if pin == displayhatmini.BUTTON_Y:
         print("y pressed")
+        menuY()
 
 displayhatmini.on_button_pressed(button_callback)
 
