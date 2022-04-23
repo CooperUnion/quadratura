@@ -8,6 +8,7 @@ import { execSync } from 'child_process'
 import path from 'path'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
+import bodyParser from 'body-parser'
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express()
@@ -22,6 +23,29 @@ app.set('view engine', 'html');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+class AccessPoints {
+  constructor() {
+    this.accessPoints = []
+  }
+
+  list() {
+    const wpa = execSync('cat /etc/wpa_supplicant/wpa_supplicant.conf | grep "ssid"')    
+    const accessPoints = wpa
+      .toString()
+      .split('\n')
+      .map((row)=>{
+        return row
+          .trim()
+          .substring(6, row.length-2)
+      })
+      .filter((row)=>{
+        if(row.length===0) return false
+        if(row.substr(0,4)==='sid=') return false
+        return true
+      })
+    return accessPoints
+  }
+}
 
 class Services {
 
@@ -58,7 +82,6 @@ class Services {
 }
 
 const services = new Services()
-
 const index = express.Router()
 // index.use(indexRouter)
 
@@ -86,7 +109,20 @@ index.get('/status/:service', (req, res)=>{
   return res.end(services.status(req.params.service))
 })
 
+const accesspoints = new AccessPoints()
+const wifi = express.Router()
+const json = bodyParser.json()
+
+wifi.get('/', (req, res)=>{
+  res.end(JSON.stringify(accesspoints.list()))
+})
+
+wifi.post('/', json, (req, res)=>{
+  res.json(req.body)
+})
+
 //attach routers
+app.use('/wifi/', wifi)
 app.use('/', index)
 
 const listener = app.listen(process.env.PORT, () => {
