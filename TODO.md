@@ -1,5 +1,5 @@
-- configure auto-hotspot
-- change default username / password
-- create auto-updating mechanism
-- move quadratura device management and p5 playback into different repos
-- make quadratura p5 playback the default editable area in codeserver.service
+- [x] configure auto-hotspot
+- [x] change default username / password
+- [x] create auto-updating mechanism
+- [x] move quadratura device management and p5 playback into different repos
+- [x] make quadratura p5 playback the default editable area in the cron
