@@ -106,7 +106,7 @@ def menuB():
     disp.display(img)
 
 def menuY():
-    os.system('sudo restart')
+    os.system('sudo reboot')
 
 def button_callback(pin):
     global MESSAGE
