@@ -16,6 +16,12 @@ window.onload = async ()=>{
   materialTitle.classList.add('mdl-card__title')
   materialTitle.appendChild(title)
 
+  const codeserver = document.createElement('a')
+  codeserver.setAttribute('href','/edit')
+  codeserver.innerText = "Edit your project"
+  codeserver.classList.add('mdl-button','mdl-js-button','mdl-button--raised','mdl-js-ripple-effect','mdl-button--accent')
+
+
   for(let serviceData of services) {
 
     const { service, url } = serviceData
@@ -64,6 +70,7 @@ window.onload = async ()=>{
   }
 
   materialCard.appendChild(materialTitle)
+  materialCard.appendChild(codeserver)
   materialCard.appendChild(list)
 
 

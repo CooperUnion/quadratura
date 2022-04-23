@@ -1,5 +1,3 @@
-//TODO: read docker status
-
 //app setup and auth
 import express from 'express'
 import exphbs from 'express-handlebars'
@@ -75,7 +73,7 @@ class Services {
     this.services = [
      // {service:'codeserver','url':`http://${address}:8080`},
      // {service:'startup'},
-      {service:'display'}
+     // {service:'display'}
     ]
   }
 
@@ -129,6 +127,10 @@ index.get('/status/:service', (req, res)=>{
     return res.status(400).end(status)
   }
   return res.end(services.status(req.params.service))
+})
+
+index.get('/edit', (req, res)=>{
+  return res.redirect(`http://${address}:8080`)
 })
 
 const accesspoints = new AccessPoints()
