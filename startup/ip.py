@@ -87,23 +87,42 @@ displayhatmini = DisplayHATMini(img, backlight_pwm=True)
 BRIGHTNESS = 1
 
 def menuA():
-    #to implement
+    #to implement back sometimes
     time.sleep(1)
 
 def menuB():
     global img
     if len(WIFI) > 0:
         img = generateQrImage(WIFI)
+        img = img.resize((WIDTH, HEIGHT))
         print("creating wifi qr code")
         draw = ImageDraw.Draw(img)
-        draw.text((0, 0), "Setup via Wifi", font=font_ui, fill=(255, 0, 0, 50))
+        draw.text((0, 0), "Step 1: Join Wifi", font=font_ui, fill=(255, 0, 0, 50))
+        draw.text((235, 220), "Next->", font=font_ui, fill=(255, 0, 0, 50))
     else:
         img = generateQrImage("http://{IP}:8888/".format(IP=IP))
+        img = img.resize((WIDTH, HEIGHT))
         print("creating admin qr code")
         draw = ImageDraw.Draw(img)
-        draw.text((0, 0), "Admin Panel", font=font_ui, fill=(255, 0, 0, 50))
-    img = img.resize((WIDTH, HEIGHT))
+        draw.text((0, 0), "Configure Panel", font=font_ui, fill=(255, 0, 0, 50))
+        draw.text((235, 0), "Run->", font=font_ui, fill=(255, 0, 0, 50))
     disp.display(img)
+
+def menuX():
+    #run
+    os.system('sudo systemctl start display')
+    os._exit(1)
+
+def menuNext():
+    global img
+    img = generateQrImage("http://{IP}:8888/".format(IP=IP))
+    img = img.resize((WIDTH, HEIGHT))
+    print("menuNext: creating admin qr code")
+    draw = ImageDraw.Draw(img)
+    draw.text((0, 0), "Step 2: Configure", font=font_ui, fill=(255, 0, 0, 50))
+    draw.text((0, 220), "<-Prev", font=font_ui, fill=(255, 0, 0, 50))
+    disp.display(img)
+
 
 def menuY():
     os.system('sudo reboot')
@@ -123,13 +142,16 @@ def button_callback(pin):
         menuA()
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
-        MESSAGE = "B button pressed"
         menuB()
     if pin == displayhatmini.BUTTON_X:
         print("x pressed")
+        menuX()
     if pin == displayhatmini.BUTTON_Y:
         print("y pressed")
-        menuY()
+        if len(WIFI)>0:
+            menuNext()
+        else:
+            menuY()
 
 displayhatmini.on_button_pressed(button_callback)
 

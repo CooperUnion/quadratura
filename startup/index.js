@@ -73,9 +73,9 @@ class Services {
 
   constructor() {
     this.services = [
-      {service:'codeserver','url':`http://${address}:8080`},
-      {service:'startup'},
-      {service:'quadratura'}
+     // {service:'codeserver','url':`http://${address}:8080`},
+     // {service:'startup'},
+      {service:'display'}
     ]
   }
 
