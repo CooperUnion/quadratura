@@ -8,7 +8,7 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-#https://github.com/pimoroni/displayhatmini-python/blob/0ace127f501c5ddba2823240d2a84970ddfd9c0b/examples/pwm-backlight.py
+# https://github.com/pimoroni/displayhatmini-python/blob/0ace127f501c5ddba2823240d2a84970ddfd9c0b/examples/pwm-backlight.py
 from displayhatmini import DisplayHATMini
 
 import ST7789
@@ -34,17 +34,18 @@ Currently sleeping for {delay} seconds.
 time.sleep(delay)
 
 try:
-  s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-  s.connect(("8.8.8.8", 80))
-  IP = s.getsockname()[0]
-  MESSAGE = s.getsockname()[0]
-  s.close()
-  WIFI=""
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    IP = s.getsockname()[0]
+    MESSAGE = s.getsockname()[0]
+    s.close()
+    WIFI = ""
 except:
-  hostname = socket.gethostname()
-  IP = hostname
-  MESSAGE = hostname
-  WIFI = "WIFI:S:{hostname};T:WPA/WPA2;P:cooperunion;;".format(hostname=hostname)
+    hostname = socket.gethostname()
+    IP = hostname
+    MESSAGE = hostname
+    WIFI = "WIFI:S:{hostname};T:WPA/WPA2;P:cooperunion;;".format(
+        hostname=hostname)
 
 # Create ST7789 LCD display class.
 disp = ST7789.ST7789(
@@ -69,8 +70,10 @@ HEIGHT = disp.height
 img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
 
-font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 30)
-font_ui = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 18)
+font = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 30)
+font_ui = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 18)
 
 size_x, size_y = draw.textsize(MESSAGE, font)
 
@@ -81,19 +84,31 @@ t_start = time.time()
 
 displayhatmini = DisplayHATMini(img, backlight_pwm=True)
 
-BRIGHTNESS=1
+BRIGHTNESS = 1
+
 
 def menuA():
-  global img
-  if len(WIFI)>0:
-    img = generateQrImage(WIFI)
-    draw = ImageDraw.Draw(img)
-    draw.text((0,0), "Wifi", font=font_ui, fill=(255,0,0))
-  else:
-    draw = ImageDraw.Draw(img)
-    draw.text((0,0), "Wifi - Disabled", font=font_ui, fill=(255,0,0))
+    global img
+    if len(WIFI) > 0:
+        img = generateQrImage(WIFI)
+        draw = ImageDraw.Draw(img)
+        draw.text((0, 0), "Wifi", font=font_ui, fill=(255, 0, 0))
+    else:
+        draw = ImageDraw.Draw(img)
+        draw.text((0, 0), "Wifi - Disabled", font=font_ui, fill=(255, 0, 0))
+
 
 def menuB():
+    global img
+    if len(WIFI) > 0:
+        img = generateQrImage(WIFI)
+        print("creating wifi qr code")
+    else:
+        img = generateQrImage("http://{IP}:8888/".format(IP=IP))
+        print("creating admin qr code")
+        img = img.resize((WIDTH, HEIGHT))
+    disp.display(img)
+
 
 def button_callback(pin):
     global MESSAGE
@@ -110,28 +125,13 @@ def button_callback(pin):
         menuA()
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
-        MESSAGE="B button pressed"
-        if len(WIFI)>0:
-          img = generateQrImage(WIFI)
-          print("creating wifi qr code")
-        else:
-          img = generateQrImage("http://{IP}:8888/".format(IP=IP))
-          print("creating admin qr code")
-        img = img.resize((WIDTH, HEIGHT))
-        disp.display(img)
+        MESSAGE = "B button pressed"
+        menuB()
     if pin == displayhatmini.BUTTON_X:
         print("x pressed")
-        MESSAGE="X button pressed, toggling"
-        BRIGHTNESS = 1 if BRIGHTNESS == 0 else 0
-        displayhatmini.set_backlight(BRIGHTNESS)
+
     if pin == displayhatmini.BUTTON_Y:
-        print("y pressed. quitting...")
-        MESSAGE="Y button pressed. Exiting"
-        draw.rectangle((0, 0, WIDTH, HEIGHT), (0,0,0))
-        displayhatmini.set_backlight(0)
-        disp.display(img)
-        # os.system('sudo shutdown now')
-        os._exit(1)
+        print("y pressed")
 
 displayhatmini.on_button_pressed(button_callback)
 
@@ -140,5 +140,6 @@ while True:
     x %= (size_x + disp.width)
     # x = WIDTH
     draw.rectangle((0, 0, disp.width, disp.height), (0, 0, 0))
-    draw.text((int(text_x - x), text_y), MESSAGE, font=font, fill=(255, 255, 255))
+    draw.text((int(text_x - x), text_y), MESSAGE,
+              font=font, fill=(255, 255, 255))
     disp.display(img)
