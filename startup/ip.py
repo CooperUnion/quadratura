@@ -95,7 +95,7 @@ def menuA():
         draw.text((0, 0), "Wifi", font=font_ui, fill=(255, 0, 0))
     else:
         draw = ImageDraw.Draw(img)
-        draw.text((0, 0), "Wifi - Disabled", font=font_ui, fill=(255, 0, 0))
+        draw.text((0, 0), "Wifi - Disabled", font=font_ui, fill=(255, 0, 0, .5))
 
 
 def menuB():
