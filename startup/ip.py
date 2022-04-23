@@ -24,7 +24,7 @@ ip.py - Display connectivity information at boot.
 
 
 Usage: ./ip.py <delay>
-* <delay> specified in seconds. 
+* <delay> specified in seconds.
 * If no delay is specified, the default is 60 seconds.
 
 Currently sleeping for {delay} seconds.
@@ -70,6 +70,7 @@ img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
 
 font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 30)
+font_ui = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 18)
 
 size_x, size_y = draw.textsize(MESSAGE, font)
 
@@ -82,13 +83,23 @@ displayhatmini = DisplayHATMini(img, backlight_pwm=True)
 
 BRIGHTNESS=1
 
+def menuA():
+  global img
+  if len(WIFI)>0:
+    img = generateQrImage(WIFI)
+    draw = ImageDraw.Draw(img)
+    draw.text((0,0), "Wifi", font=font_ui, fill=(255,0,0))
+  else:
+    draw = ImageDraw.Draw(img)
+    draw.text((0,0), "Wifi - Disabled", font=font_ui, fill=(255,0,0))
+
+def menuB():
+
 def button_callback(pin):
     global MESSAGE
     global BRIGHTNESS
     global IP
     global img
-
-    draw = ImageDraw.Draw(img)
 
     # Only handle presses
     if not displayhatmini.read_button(pin):
@@ -96,11 +107,7 @@ def button_callback(pin):
 
     if pin == displayhatmini.BUTTON_A:
         print("a pressed")
-        MESSAGE="A button pressed"
-        if len(WIFI)>0:
-          img = generateQrImage(WIFI)
-        # draw.rectangle((0, 0, disp.width, disp.height), (0, 0, 0))
-        draw.text((0,0), "TEST", font=font, fill=(255,0,0))
+        menuA()
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
         MESSAGE="B button pressed"
