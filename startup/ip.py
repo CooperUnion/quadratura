@@ -39,6 +39,7 @@ try:
   IP = s.getsockname()[0]
   MESSAGE = s.getsockname()[0]
   s.close()
+  WIFI=""
 except:
   hostname = socket.gethostname()
   IP = hostname
@@ -94,13 +95,17 @@ def button_callback(pin):
     if pin == displayhatmini.BUTTON_A:
         print("a pressed")
         MESSAGE="A button pressed"
+        if len(WIFI)>0:
+          img = generateQrImage(WIFI)
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
         MESSAGE="B button pressed"
-        if WIFI:
+        if len(WIFI)>0:
           img = generateQrImage(WIFI)
+          print("creating wifi qr code")
         else:
           img = generateQrImage("http://{IP}:8888/".format(IP=IP))
+          print("creating admin qr code")
         img = img.resize((WIDTH, HEIGHT))
         disp.display(img)
     if pin == displayhatmini.BUTTON_X:
