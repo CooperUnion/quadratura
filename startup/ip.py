@@ -86,28 +86,27 @@ displayhatmini = DisplayHATMini(img, backlight_pwm=True)
 
 BRIGHTNESS = 1
 
-
 def menuA():
-    global img
-    if len(WIFI) > 0:
-        img = generateQrImage(WIFI)
-        draw = ImageDraw.Draw(img)
-        draw.text((0, 0), "Wifi", font=font_ui, fill=(255, 0, 0, 50))
-    else:
-        draw = ImageDraw.Draw(img)
-        draw.text((0, 0), "Wifi - Disabled", font=font_ui, fill=(255, 0, 0, 50))
+    #to implement
+    time.sleep(1)
 
 def menuB():
     global img
     if len(WIFI) > 0:
         img = generateQrImage(WIFI)
         print("creating wifi qr code")
+        draw = ImageDraw.Draw(img)
+        draw.text((0, 0), "Setup via Wifi", font=font_ui, fill=(255, 0, 0, 50))
     else:
         img = generateQrImage("http://{IP}:8888/".format(IP=IP))
         print("creating admin qr code")
-        img = img.resize((WIDTH, HEIGHT))
+        draw = ImageDraw.Draw(img)
+        draw.text((0, 0), "Admin Panel", font=font_ui, fill=(255, 0, 0, 50))
+    img = img.resize((WIDTH, HEIGHT))
     disp.display(img)
 
+def menuY():
+    os.system('sudo restart')
 
 def button_callback(pin):
     global MESSAGE
@@ -133,11 +132,18 @@ def button_callback(pin):
 
 displayhatmini.on_button_pressed(button_callback)
 
+if len(WIFI)>0:
+    menuB()
+
 while True:
     x = (time.time() - t_start) * 100
     x %= (size_x + disp.width)
     # x = WIDTH
     draw.rectangle((0, 0, disp.width, disp.height), (0, 0, 0))
+
     draw.text((int(text_x - x), text_y), MESSAGE,
               font=font, fill=(255, 255, 255))
+    draw.text((0, 190), "Admin Panel", font=font_ui, fill=(255, 0, 0, 50))
+    draw.text((240, 190), "Restart", font=font_ui, fill=(255, 0, 0, 50))
+
     disp.display(img)
