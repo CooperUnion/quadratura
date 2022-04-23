@@ -45,6 +45,21 @@ class AccessPoints {
       })
     return accessPoints
   }
+
+  add(ssid, passphrase) {
+    const network = `
+    network={
+	ssid="${ssid}"
+	psk="${passphrase}"
+	key_mgmt=WPA-PSK
+    }`
+
+    console.log(network.split('\n'))
+    network.split('\n').forEach((line)=>{
+      execSync(`sudo echo '${line}' >> /etc/wpa_supplicant/wpa_supplicant.conf`)
+    })
+    return network
+  }
 }
 
 class Services {
@@ -118,7 +133,13 @@ wifi.get('/', (req, res)=>{
 })
 
 wifi.post('/', json, (req, res)=>{
-  res.json(req.body)
+  const {ssid, passphrase} = req.body
+  const network = accesspoints.add(ssid, passphrase)
+  res.json({
+    ssid,
+    passphrase,
+    network
+  })
 })
 
 //attach routers
