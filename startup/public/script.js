@@ -108,6 +108,7 @@ window.onload = async ()=>{
   })
 
   const addApForm = document.createElement('form')
+  addApForm.setAttribute('style','padding:16px;')
 
   const addAp = document.createElement('div')
   addAp.classList.add('mdl-textfield','mdl-js-textfield')
