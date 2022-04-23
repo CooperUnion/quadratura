@@ -70,6 +70,16 @@ window.onload = async ()=>{
 
 
   const loader = document.createElement('div')
+  const snackbar = document.createElement('div')
+  snackbar.classList.add('mdl-js-snackbar','mdl-snackbar')
+  const snackbarText = document.createElement('div')
+  snackbarText.classList.add('mdl-snackbar__text')
+  const snackbarAction = document.createElement('button')
+  snackbarAction.classList.add('mdl-snackbar__action')
+  snackbar.appendChild(snackbarText)
+  snackbar.appendChild(snackbarAction)
+
+
   loader.classList.add('mdl-progress','mdl-js-progress','mdl-progress__indeterminate')
   loader.setAttribute('style','visibility:hidden')
 
@@ -136,6 +146,11 @@ window.onload = async ()=>{
     submitAp.setAttribute('disabled','true')
     loader.setAttribute('style','')
 
+    snackbar.MaterialSnackbar.showSnackbar({
+      message: 'Adding: Device will now reboot.',
+      timeout: 5000
+    })
+
     const ssid = document.querySelector('#ssid').value
     const passphrase = document.querySelector('#passphrase').value
     await fetch('/wifi', {
@@ -164,6 +179,7 @@ window.onload = async ()=>{
   const body = document.querySelector('body')
   body.appendChild(materialCard)
   body.appendChild(materialWifiCard)
+  body.appendChild(snackbar)
   componentHandler.upgradeDom()
 }
 
