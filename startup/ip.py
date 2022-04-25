@@ -7,9 +7,15 @@ from qrLibrary import generateQrImage
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
-
+# test
 # https://github.com/pimoroni/displayhatmini-python/blob/0ace127f501c5ddba2823240d2a84970ddfd9c0b/examples/pwm-backlight.py
 from displayhatmini import DisplayHATMini
+
+import json
+
+with open('package.json') as f:
+    d = json.load(f)
+    VERSION = d['version']
 
 import ST7789
 import socket
@@ -20,15 +26,15 @@ except IndexError:
     delay = 60
 
 print("""
-ip.py - Display connectivity information at boot.
-
+ip.py v{version}
+Display connectivity information at boot.
 
 Usage: ./ip.py <delay>
 * <delay> specified in seconds.
 * If no delay is specified, the default is 60 seconds.
 
 Currently sleeping for {delay} seconds.
-""".format(delay=delay))
+""".format(delay=delay,version=VERSION))
 
 
 time.sleep(delay)
@@ -36,6 +42,7 @@ time.sleep(delay)
 try:
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
+    hostname = socket.gethostname()
     IP = s.getsockname()[0]
     MESSAGE = s.getsockname()[0]
     s.close()
@@ -85,6 +92,8 @@ t_start = time.time()
 displayhatmini = DisplayHATMini(img, backlight_pwm=True)
 
 BRIGHTNESS = 1
+BACK_ENABLED = False
+
 
 def menuA():
     #to implement back sometimes
@@ -105,8 +114,16 @@ def menuB():
         print("creating admin qr code")
         draw = ImageDraw.Draw(img)
         draw.text((0, 0), "Configure Panel", font=font_ui, fill=(255, 0, 0, 50))
+        back_x, back_y = draw.textsize("<-Back", font_ui)
+        draw.text((0, HEIGHT-back_y), "<-Back", font=font_ui, fill=(255,0,0,50))
         draw.text((235, 0), "Run->", font=font_ui, fill=(255, 0, 0, 50))
     disp.display(img)
+
+def menuBAlt():
+    global img
+    global draw
+    img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
+    draw = ImageDraw.Draw(img) 
 
 def menuX():
     #run
@@ -132,6 +149,7 @@ def button_callback(pin):
     global BRIGHTNESS
     global IP
     global img
+    global BACK_ENABLED
 
     # Only handle presses
     if not displayhatmini.read_button(pin):
@@ -142,7 +160,14 @@ def button_callback(pin):
         menuA()
     if pin == displayhatmini.BUTTON_B:
         print("b pressed")
-        menuB()
+        if BACK_ENABLED == False:
+            menuB()
+            BACK_ENABLED = True
+        else:
+            print("alternate function!")
+            menuBAlt()
+            BACK_ENABLED = False
+
     if pin == displayhatmini.BUTTON_X:
         print("x pressed")
         menuX()
@@ -167,6 +192,15 @@ while True:
     draw.text((int(text_x - x), text_y), MESSAGE,
               font=font, fill=(255, 255, 255))
     draw.text((0, 190), "Admin Panel", font=font_ui, fill=(255, 0, 0, 50))
-    draw.text((240, 190), "Restart", font=font_ui, fill=(255, 0, 0, 50))
 
+    restart_x, restart_y = draw.textsize("Restart", font_ui)
+    draw.text((WIDTH-restart_x, 190), "Restart", font=font_ui, fill=(255, 0, 0, 50))
+
+    hostname_x, hostname_y = draw.textsize(hostname, font_ui)
+    draw.text((0,HEIGHT-hostname_y), hostname, font=font_ui, fill=(255,255,255,255))
+
+    version_x, version_y = draw.textsize(VERSION, font_ui)
+    draw.text((WIDTH-version_x, HEIGHT-version_y), VERSION, font=font_ui, fill=(255,255,255,255))
     disp.display(img)
+
+
