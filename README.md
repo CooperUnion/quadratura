@@ -7,7 +7,7 @@ Download the image used on our Pi devices:
 
 ## Goals - End-User Experience
 The goals of this image are to facilitate easy work on a Raspberry Pi, for creative coding. Roughly:
-- Device with pre-flashed sd card should boot and create a hotspot with a ~unique~ random name (e.g. 1234-cooper)
+- [x] Device with pre-flashed sd card should boot and create a hotspot with a ~unique~ random name (e.g. 1234-cooper)
 - [x] Hotspot capture portal should allow configuring proper wifi access
 - [x] After connecting to proper wifi, device should be available with a ~unique~ random address (e.g. 1234-cooper.local)
 - [x] Device should serve node apps ~via pm2~ on boot
