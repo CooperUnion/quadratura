@@ -76,7 +76,7 @@ class Services {
     this.services = [
      // {service:'codeserver','url':`http://${address}:8080`},
      // {service:'startup'},
-     // {service:'display'}
+     {service:'display'}
     ]
   }
 
