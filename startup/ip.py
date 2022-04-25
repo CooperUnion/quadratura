@@ -13,9 +13,13 @@ from displayhatmini import DisplayHATMini
 
 import json
 
+"""
 with open('package.json') as f:
     d = json.load(f)
     VERSION = d['version']
+"""
+# For some reason, the above code works after boot, but not when launched by a cron?
+VERSION="0.1.1"
 
 import ST7789
 import socket
@@ -123,7 +127,7 @@ def menuBAlt():
     global img
     global draw
     img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
-    draw = ImageDraw.Draw(img) 
+    draw = ImageDraw.Draw(img)
 
 def menuX():
     #run
