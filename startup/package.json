@@ -1,6 +1,6 @@
 {
   "name": "quadratura-startup",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A utility to help students manage their Pi Zero 2 kids.",
   "main": "index.js",
   "scripts": {
