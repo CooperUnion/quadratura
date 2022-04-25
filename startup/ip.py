@@ -100,7 +100,7 @@ def menuB():
         draw.text((0, 0), "Step 1: Join Wifi", font=font_ui, fill=(255, 0, 0, 50))
         draw.text((235, 220), "Next->", font=font_ui, fill=(255, 0, 0, 50))
     else:
-        img = generateQrImage("http://{IP}:8888/".format(IP=IP))
+        img = generateQrImage("http://{IP}/".format(IP=IP))
         img = img.resize((WIDTH, HEIGHT))
         print("creating admin qr code")
         draw = ImageDraw.Draw(img)
@@ -115,7 +115,7 @@ def menuX():
 
 def menuNext():
     global img
-    img = generateQrImage("http://{IP}:8888/".format(IP=IP))
+    img = generateQrImage("http://{IP}/".format(IP=IP))
     img = img.resize((WIDTH, HEIGHT))
     print("menuNext: creating admin qr code")
     draw = ImageDraw.Draw(img)
