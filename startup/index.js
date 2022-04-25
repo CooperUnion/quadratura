@@ -7,6 +7,9 @@ import path from 'path'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import bodyParser from 'body-parser'
+import { update } from './update.js'
+
+await update()
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express()
