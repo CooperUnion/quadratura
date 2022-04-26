@@ -1,5 +1,7 @@
 import createCard from './card.js'
 import loader from './loader.js'
+import snackbar from './snackbar.js'
+
 const card = createCard()
 
 const remote = document.createElement('a')
