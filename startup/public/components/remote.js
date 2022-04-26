@@ -66,7 +66,7 @@ submitUrl.addEventListener('click', async (e)=>{
   await fetch('/remote', {
     method:'post',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({updatedUrl})
+    body: JSON.stringify({url:updatedUrl})
   })
 })
 
