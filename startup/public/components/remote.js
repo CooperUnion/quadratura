@@ -76,10 +76,10 @@ submitUrl.addEventListener('click', async (e)=>{
       timeout: 5000
     })
 
-    const updatingSketch = await fetch('/remote/fetch')
+    const updatingStatus = await fetch('/remote/fetch')
       .then(r=>parseInt(r.status))
 
-    if(updatingSketch.status===200) {
+    if(updatingStatus===200) {
       snackbar.MaterialSnackbar.showSnackbar({
         message: 'Latest sketch.js file updated successfull.',
         timeout: 5000
