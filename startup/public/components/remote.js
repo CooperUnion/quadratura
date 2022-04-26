@@ -80,19 +80,12 @@ updateRemote.appendChild(updateUrlLabel)
 
 updateRemoteForm.appendChild(updateRemote)
 updateRemoteForm.appendChild(submitUrl)
+updateRemoteForm.appendChild(remote)
 
 card.appendChild(materialRemoteTitle)
 card.appendChild(loader)
 card.appendChild(materialRemoteList)
 card.appendChild(updateRemoteForm)
-
-
-
-
-
-
-card.appendChild(remote)
-
 
 
 export default card
