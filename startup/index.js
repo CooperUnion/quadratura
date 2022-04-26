@@ -38,7 +38,7 @@ class Sketch {
   }
 
   async fetch() {
-    const url = this.get()
+    const url = await this.get()
     const sketch = await fetch(url).then(r=>r.text())
     writeFileSync('/home/pi/playground/sketch.js', sketch)
   }

@@ -63,11 +63,16 @@ submitUrl.addEventListener('click', async (e)=>{
   })
 
   const updatedUrl = document.querySelector('#url').value
-  await fetch('/remote', {
+  const updatingUrl = await fetch('/remote', {
     method:'post',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({url:updatedUrl})
-  })
+  }).then(r=>parseInt(r.status))
+
+  if(updatingUrl === 200) {
+    loader.setAttribute('style','visibility:hidden;')
+    window.location.reload()
+  }
 })
 
 updateRemote.appendChild(updateUrl)
