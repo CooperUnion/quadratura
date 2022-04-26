@@ -8,6 +8,7 @@ import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import bodyParser from 'body-parser'
 import { update } from './update.js'
+import { readFileSync, writeFileSync } from 'fs'
 
 await update()
 
@@ -23,6 +24,21 @@ app.engine('html', exphbs({extname: '.html'}));
 app.set('view engine', 'html');
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+class Sketch {
+  constructor() {}
+
+  set (url) {
+    writeFileSync('/home/pi/remote', url)
+    this.fetch()
+  }
+
+  async fetch() {
+    const url = readFileSync('/home/pi/remote').toString()
+    const sketch = await fetch(url).then(r=>r.text())
+    writeFileSync('/home/pi/playground/sketch.js')
+  }
+}
 
 class AccessPoints {
   constructor() {
@@ -133,7 +149,14 @@ index.get('/status/:service', (req, res)=>{
 })
 
 index.get('/edit', (req, res)=>{
-  return res.redirect(`http://${address}:8080`)
+  try {
+    const url = readFileSync('/home/pi/remote').toString()
+    const project_name = url.split('.')[0].split('https://')[0]
+    const edit_url = `https://glitch.com/~${project_name}`
+    return res.redirect(edit_url)
+  } catch(e) {
+    res.status(400).end("Currently only supports glitch.me urls")
+  }
 })
 
 const accesspoints = new AccessPoints()
@@ -154,8 +177,30 @@ wifi.post('/', json, (req, res)=>{
   })
 })
 
+const sketch = new Sketch()
+const remote = express.Router()
+remote.get('/', async (req, res)=>{
+  try {
+    await sketch.fetch()
+    return res.end('ok')
+  } catch (e) {
+    return res.status(500).end('Url needs to be set first')
+  }
+})
+
+remote.post('/', json, async (req, res)=>{
+  try {
+    sketch.set(req.body.url)
+    res.end()
+  } catch (e) {
+    res.status(500).end("Url couldn't be saved")
+  }
+})
+
+
 //attach routers
 app.use('/wifi/', wifi)
+app.use('/remote/', remote)
 app.use('/', index)
 
 const listener = app.listen(process.env.PORT, () => {

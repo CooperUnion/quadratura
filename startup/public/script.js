@@ -16,10 +16,10 @@ window.onload = async ()=>{
   materialTitle.classList.add('mdl-card__title')
   materialTitle.appendChild(title)
 
-  const codeserver = document.createElement('a')
-  codeserver.setAttribute('href','/edit')
-  codeserver.innerText = "Edit your project"
-  codeserver.classList.add('mdl-button','mdl-js-button','mdl-button--raised','mdl-js-ripple-effect','mdl-button--accent')
+  const remote = document.createElement('a')
+  remote.setAttribute('href','/edit')
+  remote.innerText = "Edit your project"
+  remote.classList.add('mdl-button','mdl-js-button','mdl-button--raised','mdl-js-ripple-effect','mdl-button--accent')
 
 
   for(let serviceData of services) {
@@ -70,7 +70,7 @@ window.onload = async ()=>{
   }
 
   materialCard.appendChild(materialTitle)
-  materialCard.appendChild(codeserver)
+  materialCard.appendChild(remote)
   materialCard.appendChild(list)
 
 
