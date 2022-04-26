@@ -189,6 +189,8 @@ remote.get('/', async (req, res)=>{
     return res.json({
       url
     })
+  } catch(e) {
+    res.json({url:""})
   }
 })
 
