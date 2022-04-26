@@ -1,5 +1,5 @@
 import card from './card.js'
-import loader from './components/loader.js'
+import loader from './loader.js'
 
 
 const accesspoints = await fetch('/wifi').then(r=>r.json())
