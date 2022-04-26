@@ -143,7 +143,7 @@ index.get('/stop/:service', (req, res)=>{
 index.get('/status/:service', (req, res)=>{
   const status = services.status(req.params.service)
   if(!Buffer.isBuffer(status) && status.substr(0,7) === 'Offline') {
-    return res.status(400).end(status)
+    return res.status(503).end(status)
   }
   return res.end(services.status(req.params.service))
 })
@@ -155,7 +155,7 @@ index.get('/edit', (req, res)=>{
     const edit_url = `https://glitch.com/~${project_name}`
     return res.redirect(edit_url)
   } catch(e) {
-    res.status(400).end("Currently only supports glitch.me urls")
+    res.status(501).end("Currently only supports glitch.me urls")
   }
 })
 
@@ -184,7 +184,7 @@ remote.get('/', async (req, res)=>{
     await sketch.fetch()
     return res.end('ok')
   } catch (e) {
-    return res.status(500).end('Url needs to be set first')
+    return res.status(501).end('Url needs to be set first')
   }
 })
 
