@@ -155,7 +155,7 @@ index.get('/status/:service', (req, res)=>{
 index.get('/edit', (req, res)=>{
   try {
     const url = readFileSync('/home/pi/remote').toString()
-    const project_name = url.split('.')[0].split('https://')[0]
+    const project_name = url.split('.')[0].split('https://')[1]
     const edit_url = `https://glitch.com/~${project_name}`
     return res.redirect(edit_url)
   } catch(e) {
