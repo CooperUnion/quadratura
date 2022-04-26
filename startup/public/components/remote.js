@@ -71,7 +71,28 @@ submitUrl.addEventListener('click', async (e)=>{
 
   if(updatingUrl === 200) {
     loader.setAttribute('style','visibility:hidden;')
-    window.location.reload()
+    snackbar.MaterialSnackbar.showSnackbar({
+      message: 'Fetching latest sketch.js file',
+      timeout: 5000
+    })
+
+    const updatingSketch = await fetch('/remote/fetch')
+      .then(r=>parseInt(r.status))
+
+    if(updatingSketch.status===200) {
+      snackbar.MaterialSnackbar.showSnackbar({
+        message: 'Latest sketch.js file updated successfull.',
+        timeout: 5000
+      })
+      setTimeout(()=>{
+        window.location.reload()
+      }, 5000)
+    } else {
+      snackbar.MaterialSnackbar.showSnackbar({
+        message: 'Latest sketch.js file failed. Please try again.',
+        timeout: 5000
+      })
+    }
   }
 })
 

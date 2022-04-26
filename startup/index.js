@@ -197,7 +197,7 @@ remote.get('/', async (req, res)=>{
 remote.get('/fetch', async (req, res)=>{
   try {
     await sketch.fetch()
-    return res.end('ok')
+    return res.json({'ok':true})
   } catch (e) {
     return res.status(501).end('Url needs to be set first')
   }
