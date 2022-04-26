@@ -59,7 +59,7 @@ submitUrl.addEventListener('click', async (e)=>{
 
   snackbar.MaterialSnackbar.showSnackbar({
     message: 'Updating remote sketch url.',
-    timeout: 5000
+    timeout: 2000
   })
 
   const updatedUrl = document.querySelector('#url').value
@@ -86,7 +86,7 @@ submitUrl.addEventListener('click', async (e)=>{
       })
       setTimeout(()=>{
         window.location.reload()
-      }, 5000)
+      }, 7000)
     } else {
       snackbar.MaterialSnackbar.showSnackbar({
         message: 'Latest sketch.js file failed. Please try again.',
