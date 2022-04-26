@@ -1,5 +1,5 @@
-import card from './card.js'
-
+import createCard from './card.js'
+const card = createCard()
 const remote = document.createElement('a')
 remote.setAttribute('href','/edit')
 remote.innerText = "Edit your project"

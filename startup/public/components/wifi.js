@@ -1,6 +1,6 @@
-import card from './card.js'
+import createCard from './card.js'
 import loader from './loader.js'
-
+const card = createCard()
 
 const accesspoints = await fetch('/wifi').then(r=>r.json())
 console.log(accesspoints)

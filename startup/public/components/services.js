@@ -1,5 +1,5 @@
-import card from './card.js'
-
+import createCard from './card.js'
+const card = createCard()
 const services = await fetch('/services').then(r=>r.json())
 const list = document.createElement('ul')
 list.classList.add('demo-list-control','mdl-list')
@@ -14,7 +14,7 @@ for(let serviceData of services) {
     .catch(console.log)
 
   const status = statusRequest === 200
-  
+
   const materialItemContainer = document.createElement('span')
   materialItemContainer.classList.add('mdl-list__item-secondary-action')
 
