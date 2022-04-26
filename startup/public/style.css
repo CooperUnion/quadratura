@@ -1,3 +1,7 @@
 body>div{
   margin:0 auto;
 }
+
+body .mdl-card {
+  min-height:0;
+}
