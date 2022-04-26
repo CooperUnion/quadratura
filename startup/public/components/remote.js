@@ -1,6 +1,7 @@
 import createCard from './card.js'
 import loader from './loader.js'
 import snackbar from './snackbar.js'
+import latest from './refresh.js'
 
 const card = createCard()
 
@@ -22,6 +23,7 @@ const materialRemoteTitle = document.createElement('div')
 materialRemoteTitle.classList.add('mdl-card__title')
 materialRemoteTitle.appendChild(remoteTitle)
 
+const materialRemoteListContainer = document.createElement('div')
 const materialRemoteList = document.createElement('ul')
 materialRemoteList.classList.add('demo-list-item','mdl-list')
 
@@ -29,6 +31,8 @@ const li = document.createElement('li')
 li.innerText = url
 li.classList.add('mdl-list__item')
 materialRemoteList.appendChild(li)
+
+materialRemoteListContainer.appendChild(materialRemoteList)
 
 const updateRemoteForm = document.createElement('form')
 updateRemoteForm.setAttribute('style','padding:16px;')
@@ -103,9 +107,13 @@ updateRemoteForm.appendChild(updateRemote)
 updateRemoteForm.appendChild(submitUrl)
 updateRemoteForm.appendChild(remote)
 
+if(url.length>0) {
+  updateRemoteForm.appendChild(latest)
+}
+
 card.appendChild(materialRemoteTitle)
 card.appendChild(loader)
-card.appendChild(materialRemoteList)
+card.appendChild(materialRemoteListContainer)
 card.appendChild(updateRemoteForm)
 
 

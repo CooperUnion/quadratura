@@ -37,10 +37,13 @@ class Sketch {
     return readFileSync('/home/pi/remote').toString()
   }
 
-  async fetch() {
+  async fetch(start=false) {
     const url = await this.get()
     const sketch = await fetch(url).then(r=>r.text())
     writeFileSync('/home/pi/playground/sketch.js', sketch)
+    if(start===true) {
+      execSync('sudo systemctl restart display')
+    }
   }
 }
 
@@ -196,7 +199,7 @@ remote.get('/', async (req, res)=>{
 
 remote.get('/fetch', async (req, res)=>{
   try {
-    await sketch.fetch()
+    await sketch.fetch(req.query && req.query.start && req.query.start == 'true')
     return res.json({'ok':true})
   } catch (e) {
     return res.status(501).end('Url needs to be set first')
