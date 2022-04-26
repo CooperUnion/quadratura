@@ -33,10 +33,14 @@ class Sketch {
     this.fetch()
   }
 
+  async get() {
+    return readFileSync('/home/pi/remote').toString()
+  }
+
   async fetch() {
-    const url = readFileSync('/home/pi/remote').toString()
+    const url = this.get()
     const sketch = await fetch(url).then(r=>r.text())
-    writeFileSync('/home/pi/playground/sketch.js')
+    writeFileSync('/home/pi/playground/sketch.js', sketch)
   }
 }
 
@@ -180,6 +184,15 @@ wifi.post('/', json, (req, res)=>{
 const sketch = new Sketch()
 const remote = express.Router()
 remote.get('/', async (req, res)=>{
+  try{
+    const url = await sketch.get()
+    return res.json({
+      url
+    })
+  }
+})
+
+remote.get('/fetch', async (req, res)=>{
   try {
     await sketch.fetch()
     return res.end('ok')
