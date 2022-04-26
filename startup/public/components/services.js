@@ -9,8 +9,12 @@ for(let serviceData of services) {
   const { service, url } = serviceData
   const index = services.indexOf(serviceData)
 
-  const status = (await fetch(`/status/${service}`).then(r=>parseInt(r.status)) === 200)
+  const statusRequest = await fetch(`/status/${service}`)
+    .then(r=>parseInt(r.status))
+    .catch(console.log)
 
+  const status = statusRequest === 200
+  
   const materialItemContainer = document.createElement('span')
   materialItemContainer.classList.add('mdl-list__item-secondary-action')
 
