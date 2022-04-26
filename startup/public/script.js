@@ -7,6 +7,7 @@ import wifi from './components/wifi.js'
 const body = document.querySelector('body')
 body.appendChild(title)
 body.appendChild(services)
+body.appendChild(remote)
 body.appendChild(wifi)
 body.appendChild(snackbar)
 componentHandler.upgradeDom()
