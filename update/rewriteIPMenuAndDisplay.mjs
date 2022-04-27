@@ -38,7 +38,7 @@ ExecStop=sudo systemctl start ip-menu-quick
 WantedBy=multi-user.target
 `
 
-const crontab = `@reboot /home/pi/quadratura/update/update.sh`
+const crontab = `@reboot /home/pi/quadratura/update/update.sh\n`
 
 //Updates various services to support removing codeserver
 import { execSync } from 'child_process'
@@ -66,7 +66,7 @@ export default function rewriteServices() {
 
     writeFileSync('/home/pi/pi-crontab', crontab)
     execSync(`
-      sudo crontab -u pi crontab;
+      sudo crontab -u pi /home/pi/pi-crontab;
       sudo rm /home/pi/pi-crontab;
       sudo date > ${rewriteServicesFile}
     `)
@@ -75,11 +75,10 @@ export default function rewriteServices() {
       sudo systemctl daemon-reload;
       sudo systemctl enable ip-menu;
       sudo systemctl enable ip-menu-quick;
+      sudo reboot;
     `)
   } else {
     console.log('Updating services was already updated. Doing nothing.')
   }
 
 }
-
-
