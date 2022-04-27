@@ -8,7 +8,7 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-VERSION="0.2.1"
+VERSION="0.2.2"
 # https://github.com/pimoroni/displayhatmini-python/blob/0ace127f501c5ddba2823240d2a84970ddfd9c0b/examples/pwm-backlight.py
 from displayhatmini import DisplayHATMini
 

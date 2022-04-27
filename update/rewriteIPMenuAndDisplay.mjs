@@ -4,9 +4,7 @@ Description=Run the ip menu system
 After=multi-user.target
 [Service]
 User=pi
-ExecStartPre=-sudo systemctl stop display
 ExecStartPre=-sudo systemctl stop ip-menu-quick 
-ExecStartPre=-sudo systemctl stop ip-menu
 ExecStart=/home/pi/quadratura/startup/ip.py 20
 [Install]
 WantedBy=multi-user.target
@@ -17,7 +15,6 @@ Description=Run the ip menu system
 After=multi-user.target
 [Service]
 User=pi
-ExecStartPre=-sudo systemctl stop display
 ExecStartPre=-sudo systemctl stop ip-menu
 ExecStart=/home/pi/quadratura/startup/ip.py 1
 [Install]
@@ -33,7 +30,7 @@ User=pi
 ExecStartPre=-sudo systemctl stop ip-menu
 ExecStartPre=-sudo systemctl stop ip-menu-quick
 ExecStart=/home/pi/playground/start.sh
-ExecStop=sudo systemctl start ip-menu-quick
+ExecStopPost=sudo systemctl start ip-menu-quick
 [Install]
 WantedBy=multi-user.target
 `
@@ -48,7 +45,7 @@ export default function rewriteServices() {
 
   console.log("update running...")
   //create update files
-  const rewriteServicesFile = '/home/pi/updates/2022-04-26-rewrite-services'
+  const rewriteServicesFile = '/home/pi/updates/2022-04-26-rewrite-services-1'
 
   execSync(`
     mkdir -p /home/pi/updates;
