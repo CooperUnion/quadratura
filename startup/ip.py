@@ -19,7 +19,7 @@ with open('package.json') as f:
     VERSION = d['version']
 """
 # For some reason, the above code works after boot, but not when launched by a cron?
-VERSION="0.1.4"
+VERSION="0.2.0"
 
 import ST7789
 import socket
