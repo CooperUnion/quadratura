@@ -7,7 +7,8 @@ from qrLibrary import generateQrImage
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
-# test
+
+VERSION="0.2.1"
 # https://github.com/pimoroni/displayhatmini-python/blob/0ace127f501c5ddba2823240d2a84970ddfd9c0b/examples/pwm-backlight.py
 from displayhatmini import DisplayHATMini
 
@@ -19,7 +20,6 @@ with open('package.json') as f:
     VERSION = d['version']
 """
 # For some reason, the above code works after boot, but not when launched by a cron?
-VERSION="0.2.0"
 
 import ST7789
 import socket

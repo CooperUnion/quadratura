@@ -73,8 +73,9 @@ export default function rewriteServices() {
 
     execSync(`
       sudo systemctl daemon-reload;
-      sudo systemctl enable ip-menu;
       sudo systemctl enable ip-menu-quick;
+      sudo systemctl disable ip-menu;
+      sudo systemctl disable display;
       sudo reboot;
     `)
   } else {
