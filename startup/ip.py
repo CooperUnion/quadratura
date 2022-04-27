@@ -2,11 +2,15 @@
 import sys
 import time
 import os
+import asyncio
+
 from qrLibrary import generateQrImage
 
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+
+from subprocess import getoutput
 
 VERSION="0.2.2"
 # https://github.com/pimoroni/displayhatmini-python/blob/0ace127f501c5ddba2823240d2a84970ddfd9c0b/examples/pwm-backlight.py
@@ -187,24 +191,39 @@ displayhatmini.on_button_pressed(button_callback)
 if len(WIFI)>0:
     menuB()
 
-while True:
-    x = (time.time() - t_start) * 100
-    x %= (size_x + disp.width)
-    # x = WIDTH
-    draw.rectangle((0, 0, disp.width, disp.height), (0, 0, 0))
 
-    draw.text((int(text_x - x), text_y), MESSAGE,
+
+
+clients = 0
+async def leases():
+    global clients
+    command = "ip neigh | grep -c 'wlan0'"
+    clients = getoutput(command)
+    time.sleep(1)
+
+
+async def main():
+    while True:
+        asyncio.create_task(leases())
+
+        x = (time.time() - t_start) * 100
+        x %= (size_x + disp.width)
+        draw.rectangle((0, 0, disp.width, disp.height), (0, 0, 0))
+
+        draw.text((int(text_x - x), text_y), MESSAGE,
               font=font, fill=(255, 255, 255))
-    draw.text((0, 190), "Admin Panel", font=font_ui, fill=(255, 0, 0, 50))
+        draw.text((0, 190), "Admin Panel", font=font_ui, fill=(255, 0, 0, 50))
 
-    restart_x, restart_y = draw.textsize("Restart", font_ui)
-    draw.text((WIDTH-restart_x, 190), "Restart", font=font_ui, fill=(255, 0, 0, 50))
+        restart_x, restart_y = draw.textsize("Restart", font_ui)
+        draw.text((WIDTH-restart_x, 190), "Restart", font=font_ui, fill=(255, 0, 0, 50))
 
-    hostname_x, hostname_y = draw.textsize(hostname, font_ui)
-    draw.text((0,HEIGHT-hostname_y), hostname, font=font_ui, fill=(255,255,255,255))
+        hostname_x, hostname_y = draw.textsize(hostname, font_ui)
+        draw.text((0,HEIGHT-hostname_y), hostname, font=font_ui, fill=(255,255,255,255))
 
-    version_x, version_y = draw.textsize(VERSION, font_ui)
-    draw.text((WIDTH-version_x, HEIGHT-version_y), VERSION, font=font_ui, fill=(255,255,255,255))
-    disp.display(img)
+        version_x, version_y = draw.textsize(VERSION, font_ui)
+        draw.text((WIDTH-version_x, HEIGHT-version_y), VERSION, font=font_ui, fill=(255,255,255,255))
 
+        draw.text((0, 0), str(clients), font=font_ui, fill=(255,255,255,255))
+        disp.display(img)
 
+asyncio.run(main())
